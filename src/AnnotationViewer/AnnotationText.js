@@ -17,16 +17,25 @@ class AnnotationText extends Component {
 
 		const styles = {
 			div: {
-				border: '1px solid #fff',
 				position: 'absolute',
 				left: this.props.left,
 				top: this.props.top,
-				zIndex: 15
+				zIndex: 15,
+				borderRadius: '3px 3px 0 0'
 			},
 			h1: {
 				fontSize: '10px',
 				backgroundColor: 'green',
-				cursor: 'move'
+				cursor: 'move',
+				borderRadius: 'inherit'
+			},
+			closeSpan: {
+				float: 'right',
+				color: '#fff',
+				fontSize: '10px',
+				position: 'absolute',
+				top: 1,
+				right: 1
 			}
 		}
 
@@ -38,6 +47,7 @@ class AnnotationText extends Component {
 				<h1 style={styles.h1}>评语</h1>
 				<textarea rows={this.props.rows} 
 					      cols={this.props.cols}/>
+			    <span style={styles.closeSpan}>X</span>
 			</div>
 		)
 	}
