@@ -1,20 +1,21 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 import ReactDOM from 'react-dom';
 
 import styles from './viewer.css';
 require('./PDFJS/pdf')
 
 class TextLayerBuilder extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
             textDivs: [],
             children: null
         }
-        this.showContextMenu = this.showContextMenu.bind(this)
     }
-    
+
     componentDidMount() {
 
         var textLayer = ReactDOM.findDOMNode(this.textLayer);
@@ -41,14 +42,12 @@ class TextLayerBuilder extends Component {
         }
     }
 
-    showContextMenu(e) {
-        e.preventDefault();
+    componentDidUpdate() {}
+
+    handleOnSelect(e) {
+        console.log(e)
     }
 
-    componentDidUpdate() {
-    }
-
-    
     render() {
 
         const divStyle = {
@@ -57,7 +56,16 @@ class TextLayerBuilder extends Component {
         }
 
         return (
-            <div key={this.props.key} className={styles.textLayer} style={divStyle} ref={(c) => this.textLayer = c}>
+            <div 
+                onMouseUp={this.props.onMouseUp}
+                onMouseDown={this.props.onMouseDown}
+                onClick={this.props.onClick}
+                onContextMenu={this.props.onContextMenu}
+                key={this.props.key} 
+                className={styles.textLayer} 
+                style={divStyle}
+                ref={(c) => this.textLayer = c}
+                onContextMenu={this.props.onContextMenu}>
             </div>
         )
     }

@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 
 import PdfViewer from './PdfViewer'
 import styles from './viewer.css'
@@ -29,6 +31,8 @@ class PDFWrapper extends Component {
     }
 }
 
-PDFWrapper.defaultProps = {page: 1, scale: 1.0}
+PDFWrapper.defaultProps = {
+    scale: 1.0
+}
 
 module.exports = PDFWrapper;

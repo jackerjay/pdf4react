@@ -195,7 +195,11 @@
     margin: 1px auto -8px auto;
     position: relative;
     overflow: visible;
-    border: 9px solid transparent;
+    border-top: 9px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: transparent;
     background-clip: content-box;
     border-image: url(./images/shadow.png) 9 9 repeat;
     background-color: white;
