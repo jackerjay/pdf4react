@@ -9,13 +9,13 @@ class AnnotationToolsMenu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			color: 'green',
+			color: 'rgba(0, 128, 0, 0.5)',
 			colors: [
-				'green',
-				'red',
-				'yellow',
-				'white',
-				'#0AF'
+				'rgba(0, 128, 0, 0.5)',
+				'rgba(255,0,0,0.5)',
+				'rgba(242, 159, 63, 0.5)',
+				'rgba(255, 255, 255, 0.5)',
+				'rgba(0, 170, 255, 0.5)'
 			],
 			colorSelectDiv: [],
 			colorSelectDivVisible: false
