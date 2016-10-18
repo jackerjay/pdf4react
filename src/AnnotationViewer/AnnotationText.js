@@ -3,15 +3,15 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 
+import FontFace from '../css/font-face.css'
+
 class AnnotationText extends Component {
 
 	componentDidMount() {
 
 	}
 
-	handleDivOnDrag() {
-		console.log("draging")
-	}
+	handleDivOnDrag() {}
 
 	render() {
 
@@ -25,7 +25,7 @@ class AnnotationText extends Component {
 			},
 			h1: {
 				fontSize: '10px',
-				backgroundColor: 'green',
+				backgroundColor: this.props.color,
 				cursor: 'move',
 				borderRadius: 'inherit'
 			},
@@ -47,7 +47,10 @@ class AnnotationText extends Component {
 				<h1 style={styles.h1}>评语</h1>
 				<textarea rows={this.props.rows} 
 					      cols={this.props.cols}/>
-			    <span style={styles.closeSpan}>X</span>
+			    <span style={styles.closeSpan} onClick={() => this.props.onCloseTextDiv(this.props.id)}>
+			    	<i className={FontFace.iconfont + ' ' + FontFace.annotationTextCloseIcon} 
+			    	   >&#xe601;</i>
+			    </span>
 			</div>
 		)
 	}

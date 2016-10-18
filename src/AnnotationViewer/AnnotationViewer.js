@@ -4,8 +4,9 @@ import React, {
 import ReactDOM from 'react-dom';
 
 import AnnotationText from './AnnotationText';
+import AnnotationToolsMenu from './AnnotationToolsMenu';
 
-import FontFace from '../css/font-face.css'
+import FontFace from '../css/font-face.css';
 
 class AnnotationViewer extends Component {
 
@@ -21,7 +22,8 @@ class AnnotationViewer extends Component {
 			textDivs: [],
 			annotations: [],
 			annotationDivs: {},
-			textId: 0
+			textId: 0,
+			color: 'green'
 		}
 	}
 
@@ -57,9 +59,10 @@ class AnnotationViewer extends Component {
 			endY = e.pageY - 9 - this.canvas.offsetTop;
 
 		if (this.state.startX != endX && this.state.startY != endY && this.state.mouseDown) {
+			this.state.ctx.beginPath();
 			this.state.ctx.rect(this.state.startX, this.state.startY,
 				endX - this.state.startX, endY - this.state.startY);
-			this.state.ctx.fillStyle = this.props.color;
+			this.state.ctx.fillStyle = this.state.color;
 			this.state.ctx.fill();
 			this.handleDrawLineToText(this.state.startX, this.state.startY,
 				endX, endY);
@@ -74,10 +77,11 @@ class AnnotationViewer extends Component {
 						endY: endY
 					},
 					textId: this.state.textId,
-					color: this.props.color
+					color: this.state.color
 				}),
 				mouseDown: false,
-				textId: this.state.textId + 1
+				textId: this.state.textId + 1,
+				clearRect: null
 			})
 		}
 	}
@@ -87,6 +91,7 @@ class AnnotationViewer extends Component {
 			var endX = e.pageX - this.canvas.offsetLeft - this.state.startX,
 				endY = e.pageY - this.canvas.offsetTop - 9 - this.state.startY;
 			if (this.state.clearRect != null) {
+
 				this.state.ctx.clearRect(this.state.clearRect[0], this.state.clearRect[1],
 					this.state.clearRect[2], this.state.clearRect[3])
 				this.setState({
@@ -99,8 +104,7 @@ class AnnotationViewer extends Component {
 			}
 			this.state.ctx.fillRect(this.state.startX, this.state.startY,
 				endX, endY);
-			this.state.ctx.fillStyle = this.props.color;
-			this.state.ctx.fill();
+			this.state.ctx.fillStyle = this.state.color;
 		}
 	}
 
@@ -114,28 +118,89 @@ class AnnotationViewer extends Component {
 		this.state.linesCtx.beginPath();
 		this.state.linesCtx.moveTo(lineStartX, endY - (endY - startY) / 2);
 		this.state.linesCtx.lineTo(textDivStyle.left, textDivStyle.top);
-		this.state.linesCtx.strokeStyle = this.props.color;
+		this.state.linesCtx.strokeStyle = this.state.color;
 		this.state.linesCtx.stroke();
 		this.setState({
-			textDivs: this.state.textDivs.concat(<AnnotationText key={this.state.textId} left={textDivStyle.left} top={textDivStyle.top} offsetLeft={offsetLeft}/>),
+			textDivs: this.state.textDivs.concat(
+				<AnnotationText key={this.state.textId} 
+					id={this.state.textId}
+					left={textDivStyle.left} 
+					top={textDivStyle.top} 
+					offsetLeft={offsetLeft}
+					color={this.state.color}
+					onCloseTextDiv={this.handleOnCloseTextDiv.bind(this)}/>),
 			annotationDivs: Object.assign({}, {
 				...this.state.annotationDivs,
 				[this.state.textId]: {
 					left: textDivStyle.left,
-					top: textDivStyle.top
+					top: textDivStyle.top,
+					lineStartX: lineStartX
 				}
 			})
 		})
 	}
 
+	handleDeleLineToText(id) {
+		var deleLine = this.state.annotationDivs[id];
+		this.state.linesCtx.beginPath();
+		this.state.linesCtx.clearRect(deleLine.lineStartX, deleLine.top - this.state.linesCtx.lineWidth,
+			deleLine.left, this.state.linesCtx.lineWidth * 2);
+	}
+
 	handleOnContextMenu(e) {
 		e.preventDefault();
+		if (this.state.mouseDown) {
+			var endX = e.pageX - this.canvas.offsetLeft - this.state.startX,
+				endY = e.pageY - this.canvas.offsetTop - 9 - this.state.startY;
+			if (this.state.clearRect != null) {
+				this.state.ctx.beginPath();
+				this.state.ctx.clearRect(this.state.clearRect[0], this.state.clearRect[1],
+					this.state.clearRect[2], this.state.clearRect[3])
+				this.setState({
+					clearRect: [this.state.startX, this.state.startY, endX, endY]
+				})
+			} else {
+				this.setState({
+					clearRect: [this.state.startX, this.state.startY, endX, endY]
+				})
+			}
+		}
 		this.setState({
 			mouseDown: false
 		})
 	}
 
-	componentDidUpdate() {}
+	handleOnCloseTextDiv(id) {
+
+		var textDivsTemp = this.state.textDivs.filter((e) => {
+				return e.key != id
+			}),
+			annotationsTemp = this.state.annotations.filter((e) => {
+				return e.textId != id
+			})
+		var filterAnnotation = this.state.annotations.filter((e) => {
+			return e.textId == id
+		})[0];
+		this.state.ctx.beginPath();
+		this.state.ctx.clearRect(filterAnnotation.location.startX,
+			filterAnnotation.location.startY,
+			filterAnnotation.location.endX - filterAnnotation.location.startX,
+			filterAnnotation.location.endY - filterAnnotation.location.startY
+		);
+		this.handleDeleLineToText(id);
+
+		this.setState({
+			textDivs: textDivsTemp,
+			annotations: annotationsTemp,
+			clearRect: null
+		})
+	}
+
+	handleOnColorChanged(color) {
+		this.setState({
+			color
+		})
+	}
 
 	render() {
 
@@ -163,22 +228,9 @@ class AnnotationViewer extends Component {
 			borderColor: 'transparent',
 		}
 
-		const annotationToolsBarStyle = {
-			width: 50,
-			height: 50,
-			zIndex: 20,
-			top: 60,
-			position: 'fixed'
-		}
-
 		return (
 			<div>
-				<div style={annotationToolsBarStyle}>
-					<span style={{display: 'block', cursor: 'pointer'}}>
-						<i className={FontFace.iconfont}>&#xe600;</i>
-						<span style={{display: 'block'}}>颜色</span>
-					</span>					
-				</div>
+				<AnnotationToolsMenu colorChangeCallback={this.handleOnColorChanged.bind(this)}/>
 
 				<canvas ref={(c) => this.canvas = c}
 						style={annotationCanvasStyle}
@@ -201,8 +253,7 @@ class AnnotationViewer extends Component {
 }
 
 AnnotationViewer.defaultProps = {
-	decWidth: 250,
-	color: 'green'
+	decWidth: 250
 }
 
 module.exports = AnnotationViewer;
