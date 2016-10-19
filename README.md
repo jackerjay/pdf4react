@@ -1,10 +1,11 @@
-# First Chapter
+# pdf4react
+## 一个简单的可批注pdf的react组件
 
-#### 安装组件
+## 安装组件
 
     npm install pdf4react --save
 
-#### 使用组件
+## 使用组件
 
     
 
@@ -28,7 +29,7 @@
 
     }
 
-#### 一些设定项(props)
+## 一些设定项(props)
 
     
 
@@ -46,7 +47,7 @@
 
     
 
-#### 接下来要做什么
+## 接下来要做什么
 
 1) 增加数据保存，设定交互数据格式
 
@@ -56,6 +57,6 @@
 
 4）修正标注删除时对画布上其他标注的影响
 
-#### 开源协议
+## 开源协议
 
 <img src="https://opensource.org/files/osi_keyhole_300X300_90ppi_0.png" height="20" width="20"/>[MIT](https://opensource.org/licenses/MIT)
