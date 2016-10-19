@@ -1,0 +1,94 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  /* Font size is needed to make the activity bar the correct size. */
+  font-size: 10px;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #404040;
+  background-image: url(./images/texture.png);
+}
+
+.toolbar {
+    position: relative;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    cursor: default;
+}
+
+#toolbarContainer {
+    width: 100%;
+}
+
+#toolbarViewer {
+    height: 32px;
+}
+
+.pdfViewer .page {
+    direction: ltr;
+    width: 816px;
+    height: 1056px;
+    margin: 1px auto -8px auto;
+    position: relative;
+    overflow: visible;
+    border-top: 9px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: transparent;
+    background-clip: content-box;
+    border-image: url(./images/shadow.png) 9 9 repeat;
+    background-color: white;
+}
+
+.pdfViewer .canvasWrapper {
+    overflow: hidden;
+}
+
+.textLayer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 0.2;
+    line-height: 1.0;
+}
+
+.textLayer > div {
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    -webkit-transform-origin: 0% 0%;
+    -moz-transform-origin: 0% 0%;
+    -o-transform-origin: 0% 0%;
+    -ms-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+}
+
+.textLayer .highlight {
+    margin: -1px;
+    padding: 1px;
+
+    background-color: rgb(180, 0, 170);
+    border-radius: 4px;
+}
+
+#toolbarContainer {
+    position: relative;
+    height: 32px;
+    background-color: #474747; /* fallback */
+    background-image: url(./images/texture.png),
+    linear-gradient(hsla(0,0%,32%,.99), hsla(0,0%,27%,.95));
+}

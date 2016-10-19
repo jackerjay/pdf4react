@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	render
 } from 'react-dom';
-import PDF from './src';
+import PDF from './lib';
 
 render(
 	<PDF url="./test.pdf" 
