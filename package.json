@@ -1,6 +1,6 @@
 {
   "name": "pdf4react",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "pdf component for react",
   "main": "lib/index.js",
   "scripts": {
