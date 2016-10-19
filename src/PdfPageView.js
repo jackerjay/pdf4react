@@ -4,12 +4,9 @@ import React, {
 import ReactDOM from 'react-dom';
 
 import TextLayerBuilder from './TextLayerBuilder';
-import styles from './viewer.css';
+import styles from './css/viewer.css';
 
 require('./PDFJS/pdf')
-
-const DEFAULT_SCALE = 1;
-const RenderingStates = null;
 
 class PdfPageView extends Component {
 
@@ -64,15 +61,14 @@ class PdfPageView extends Component {
                     <canvas 
                         ref={(c) => this.canvas = c}/>
                 </div>
-                <TextLayerBuilder 
-                    onMouseUp={this.props.onMouseUp}
-                    onMouseDown={this.props.onMouseDown}
-                    onClick={this.props.onClick}
-                    onContextMenu={this.props.onContextMenu}
-                    textContent={this.props.textContent} 
-                    viewport={this.props.viewport} 
-                    enhanceTextSelection={this.props.enhanceTextSelection}
-                    />
+                {
+                    this.props.EnableRenderTextDiv ? 
+                        <TextLayerBuilder 
+                            textContent={this.props.textContent} 
+                            viewport={this.props.viewport} 
+                            enhanceTextSelection={this.props.enhanceTextSelection}
+                        /> : ""
+                }
             </div>
         )
     }

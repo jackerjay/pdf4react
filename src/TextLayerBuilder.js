@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 
-import styles from './viewer.css';
+import styles from './css/viewer.css';
 require('./PDFJS/pdf')
 
 class TextLayerBuilder extends Component {
@@ -40,12 +40,6 @@ class TextLayerBuilder extends Component {
                 appendTextChild(textLayerFrag)
             })
         }
-    }
-
-    componentDidUpdate() {}
-
-    handleOnSelect(e) {
-        console.log(e)
     }
 
     render() {

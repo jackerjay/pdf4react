@@ -74,7 +74,6 @@ class AnnotationViewer extends Component {
 			this.state.ctx.fillRect(this.state.startX, this.state.startY,
 				endX - this.state.startX, endY - this.state.startY);
 			this.state.ctx.closePath();
-			console.log(this.state.ctx);
 			this.handleDrawLineToText(this.state.startX, this.state.startY,
 				endX, endY);
 

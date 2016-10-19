@@ -2,7 +2,7 @@ import React, {
 	Component
 } from 'react';
 
-import styles from '../viewer.css'
+import styles from '../css/viewer.css'
 
 class AnnotationBar extends Component {
 

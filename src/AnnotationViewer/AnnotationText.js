@@ -7,12 +7,6 @@ import FontFace from '../css/font-face.css'
 
 class AnnotationText extends Component {
 
-	componentDidMount() {
-
-	}
-
-	handleDivOnDrag() {}
-
 	render() {
 
 		const styles = {
@@ -41,8 +35,6 @@ class AnnotationText extends Component {
 
 		return (
 			<div style={styles.div} 
-				 onDrag={this.handleDivOnDrag}
-				 draggable={true}
 				>
 				<h1 style={styles.h1}>评语</h1>
 				<textarea rows={this.props.rows} 
