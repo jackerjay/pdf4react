@@ -1,6 +1,6 @@
 # pdf4react
 ### 一个简单的可批注pdf的react组件
-[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/pdf4react)
+[![npm](https://img.shields.io/npm/v/pdf4react.svg)](https://www.npmjs.com/package/pdf4react)
 [![](http://progressed.io/bar/50?title=progress)](https://github.com/fehmicansaglam/progressed.io)
 [![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/pdf4react)
 
