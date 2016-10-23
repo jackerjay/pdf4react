@@ -4,7 +4,8 @@ import React, {
 import ReactDOM from 'react-dom';
 
 import AnnotationText from './AnnotationText';
-import AnnotationToolsMenu from './AnnotationToolsMenu';
+import AnnotationLeftToolsMenu from './AnnotationLeftToolsMenu';
+import AnnotationRightToolsMenu from './AnnotationRightToolsMenu';
 
 import FontFace from '../css/font-face.css';
 
@@ -24,7 +25,9 @@ class AnnotationViewer extends Component {
 			annotations: [],
 			annotationDivs: {},
 			textId: 0,
-			color: 'rgba(0, 128, 0, 0.5)'
+			color: 'rgba(0, 128, 0, 0.5)',
+			offsetLeft: null,
+			offsetTop: null
 		}
 	}
 
@@ -47,8 +50,14 @@ class AnnotationViewer extends Component {
 		this.setState({
 			ctx,
 			linesCtx,
-			interfaceCanvas
+			interfaceCanvas,
+			offsetLeft: canvas.width + 20,
+			offsetTop: canvas.offsetTop + 10
 		});
+
+		if (this.props.action === undefined) {
+			console.error("You must set the props 'action' when use annotation!")
+		}
 	}
 
 	handleOnMouseDown(e) {
@@ -119,6 +128,20 @@ class AnnotationViewer extends Component {
 		}
 	}
 
+	handleAnnotationDivTextChange(text, id) {
+		this.setState({
+			annotationDivs: Object.assign({
+				...this.state.annotationDivs,
+				[id]: {
+					left: this.state.annotationDivs[id].left,
+					top: this.state.annotationDivs[id].top,
+					lineStartX: this.state.annotationDivs[id].lineStartX,
+					text: text
+				}
+			})
+		})
+	}
+
 	handleDrawLineToText(startX, startY, endX, endY) {
 		var textDivStyle = {},
 			offsetLeft = this.annotationLineCanvas.offsetLeft,
@@ -141,7 +164,8 @@ class AnnotationViewer extends Component {
 					top={textDivStyle.top} 
 					offsetLeft={offsetLeft}
 					color={this.state.color}
-					onCloseTextDiv={this.handleOnCloseTextDiv.bind(this)}/>),
+					onCloseTextDiv={this.handleOnCloseTextDiv.bind(this)}
+					onChange={this.handleAnnotationDivTextChange.bind(this)}/>),
 			annotationDivs: Object.assign({}, {
 				...this.state.annotationDivs,
 				[this.state.textId]: {
@@ -258,8 +282,15 @@ class AnnotationViewer extends Component {
 
 		return (
 			<div>
-				<AnnotationToolsMenu colorChangeCallback={this.handleOnColorChanged.bind(this)}/>
-
+				<AnnotationLeftToolsMenu colorChangeCallback={this.handleOnColorChanged.bind(this)}/>
+				<AnnotationRightToolsMenu left={this.state.offsetLeft} 
+										  top={this.state.offsetTop} 
+										  annotationDivs={this.state.annotationDivs}
+										  textDivs={this.state.textDivs}
+										  annotations={this.state.annotations}
+										  action={this.props.action}
+										  />
+				
 				<canvas ref={(c) => this.canvas = c}
 						style={annotationCanvasStyle}
 				/>

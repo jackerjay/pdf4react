@@ -27,7 +27,7 @@ class PdfViewer extends Component {
             annocationDivs: [],
             pagesCount: 0,
             AnnotationViewerOpacity: this.props.AnnotationViewerOpacity ? this.props.AnnotationViewerOpacity : 0.4,
-            AnnotationLineWidth: 400,
+            AnnotationLineWidth: this.props.AnnotationLineWidth ? this.props.AnnotationLineWidth : 400,
             EnableAnnotation: false,
             EnableRenderTextDiv: false
         }
@@ -100,8 +100,9 @@ class PdfViewer extends Component {
                             this.state.pagesCount === 0 ? "" : 
                                 <AnnotationViewer viewport={this.state.viewport} 
                                               pagesCount={this.state.pagesCount}
-                                              lineTextWidth={this.props.AnnotationLineWidth}
-                                              opacity = {this.props.AnnotationViewerOpacity}/>
+                                              lineTextWidth={this.state.AnnotationLineWidth}
+                                              opacity = {this.state.AnnotationViewerOpacity}
+                                              action={this.props.action}/>
                         }
                     </div> : ""
                  }

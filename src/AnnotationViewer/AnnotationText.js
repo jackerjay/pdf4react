@@ -7,6 +7,10 @@ import FontFace from '../css/font-face.css'
 
 class AnnotationText extends Component {
 
+	handleTextAreaOnChange(e) {
+		this.props.onChange(e.target.value, this.props.id);
+	}
+
 	render() {
 
 		const styles = {
@@ -38,7 +42,8 @@ class AnnotationText extends Component {
 				>
 				<h1 style={styles.h1}>评语</h1>
 				<textarea rows={this.props.rows} 
-					      cols={this.props.cols}/>
+					      cols={this.props.cols}
+					      onChange={this.handleTextAreaOnChange.bind(this)}/>
 			    <span style={styles.closeSpan} onClick={() => this.props.onCloseTextDiv(this.props.id)}>
 			    	<i className={FontFace.iconfont + ' ' + FontFace.annotationTextCloseIcon} 
 			    	   >&#xe601;</i>

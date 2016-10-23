@@ -4,7 +4,7 @@ import React, {
 
 import FontFace from '../css/font-face.css';
 
-class AnnotationToolsMenu extends Component {
+class AnnotationLeftToolsMenu extends Component {
 
 	constructor(props) {
 		super(props);
@@ -94,4 +94,4 @@ class AnnotationToolsMenu extends Component {
 	}
 }
 
-module.exports = AnnotationToolsMenu;
+module.exports = AnnotationLeftToolsMenu;

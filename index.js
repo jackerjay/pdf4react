@@ -2,11 +2,12 @@ import React from 'react';
 import {
 	render
 } from 'react-dom';
-import PDF from './lib';
+import PDF from './src';
 
 render(
 	<PDF url="./test.pdf" 
 		scale={0.9} 
+		action='/savepdf'
 		EnableAnnotation={true}
 		EnableRenderTextDiv={true}/>,
 	document.getElementById('root')

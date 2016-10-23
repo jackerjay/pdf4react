@@ -24,11 +24,13 @@ class PDFWrapper extends Component {
                 <div id={styles.mainContainer}>
                     <div ref={(c) => this.div = c} id={styles.viewerContainer}>
                         <PdfViewer url={this.props.url} 
-                                scale={this.props.scale} 
+                                scale={this.props.scale}
+                                action={this.props.action} 
                                 EnableAnnotation={this.props.EnableAnnotation}
                                 EnableRenderTextDiv={this.props.EnableRenderTextDiv}
                                 AnnotationLineWidth={this.props.AnnotationLineWidth}
-                                AnnotationViewerOpacity={this.props.AnnotationViewerOpacity}/>
+                                AnnotationViewerOpacity={this.props.AnnotationViewerOpacity}
+                            />
                     </div>
                 </div>
             </div>
