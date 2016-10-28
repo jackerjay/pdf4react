@@ -42,7 +42,7 @@
 
   * 'view'批注显示模式
 
-  ![](https://github.com/jackerjay/pdf4react/blob/master/img/annotation.png)
+  ![](https://github.com/jackerjay/pdf4react/blob/master/img/view.png)
 
 ## 数据交互格式
 ```
