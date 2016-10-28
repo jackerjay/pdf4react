@@ -41,7 +41,7 @@
   ![](https://github.com/jackerjay/pdf4react/blob/master/img/annotation.png)
 
   * 'view'批注显示模式
-  
+
   ![](https://github.com/jackerjay/pdf4react/blob/master/img/annotation.png)
 
 ## 数据交互格式
@@ -77,8 +77,9 @@
 
 ## 接下来要做什么
 
-	1）总体评价
-  2) 一些优化改进
+    1)总体评价
+    2)一些优化改进
+
 
 ## 开源协议
 
