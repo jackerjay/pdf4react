@@ -1,7 +1,7 @@
 # pdf4react
 ### 一个简单的可批注pdf的react组件
 [![npm](https://img.shields.io/npm/v/pdf4react.svg)](https://www.npmjs.com/package/pdf4react)
-[![](http://progressed.io/bar/55?title=progress)](https://github.com/fehmicansaglam/progressed.io)
+[![](http://progressed.io/bar/70?title=progress)](https://github.com/fehmicansaglam/progressed.io)
 [![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/pdf4react)
 
 ## 安装组件
@@ -30,6 +30,19 @@
     EnableRenderTextDiv : 是否渲染Div文字层(默认关闭，可以用于复制或文字选择)
     AnnotationViewerOpacity : 批注层(canvas)的透明度
     AnnotationLineWidth : 右侧批注Div的偏移量，默认400
+
+## 模式简述
+  * 'pdf'模式
+
+  ![](https://github.com/jackerjay/pdf4react/blob/master/img/pdf.png)
+
+  * 'annotation'批注模式
+
+  ![](https://github.com/jackerjay/pdf4react/blob/master/img/annotation.png)
+
+  * 'view'批注显示模式
+  
+  ![](https://github.com/jackerjay/pdf4react/blob/master/img/annotation.png)
 
 ## 数据交互格式
 ```
