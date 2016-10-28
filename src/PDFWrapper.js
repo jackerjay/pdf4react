@@ -26,6 +26,7 @@ class PDFWrapper extends Component {
                         <PdfViewer url={this.props.url} 
                                 scale={this.props.scale}
                                 action={this.props.action} 
+                                model={this.props.model}
                                 EnableAnnotation={this.props.EnableAnnotation}
                                 EnableRenderTextDiv={this.props.EnableRenderTextDiv}
                                 AnnotationLineWidth={this.props.AnnotationLineWidth}
@@ -43,7 +44,8 @@ PDFWrapper.propTypes = {
     AnnotationViewerOpacity: React.PropTypes.number,
     AnnotationLineWidth: React.PropTypes.number,
     EnableAnnotation: React.PropTypes.bool,
-    EnableRenderTextDiv: React.PropTypes.bool
+    EnableRenderTextDiv: React.PropTypes.bool,
+    model: React.PropTypes.string
 }
 
 PDFWrapper.defaultProps = {
@@ -51,7 +53,8 @@ PDFWrapper.defaultProps = {
     AnnotationViewerOpacity: 0.4,
     AnnotationLineWidth: 400,
     EnableAnnotation: false,
-    EnableRenderTextDiv: false
+    EnableRenderTextDiv: false,
+    model: 'pdf'
 }
 
 module.exports = PDFWrapper;

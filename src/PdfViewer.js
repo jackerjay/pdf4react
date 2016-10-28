@@ -6,8 +6,8 @@ import * as utils from './ui_utils';
 
 import TextLayerBuilder from './TextLayerBuilder';
 import PdfPageView from './PdfPageView';
-import AnnotationViewer from './AnnotationViewer/AnnotationViewer';
-import AnnotationBar from './AnnotationViewer/AnnotationBar';
+import AnnotationViewer from './AnnotationEditViewer/AnnotationViewer';
+import AnnotationBar from './AnnotationEditViewer/AnnotationBar';
 
 import styles from './css/viewer.css';
 
@@ -25,11 +25,7 @@ class PdfViewer extends Component {
             selected: false,
             menuStyles: {},
             annocationDivs: [],
-            pagesCount: 0,
-            AnnotationViewerOpacity: this.props.AnnotationViewerOpacity ? this.props.AnnotationViewerOpacity : 0.4,
-            AnnotationLineWidth: this.props.AnnotationLineWidth ? this.props.AnnotationLineWidth : 400,
-            EnableAnnotation: false,
-            EnableRenderTextDiv: false
+            pagesCount: 0
         }
     }
 
@@ -79,12 +75,13 @@ class PdfViewer extends Component {
         });
     }
 
+
     render() {
 
         const wrapperDivStyle = {
             border: '9px solid transparent',
             width: this.state.viewport ? this.state.viewport.width : 'auto',
-            margin: this.props.EnableAnnotation ? '' : '1px auto -8px auto'
+            margin: this.props.model!=='pdf' ? '' : '1px auto -8px auto'
         }
 
         return (
@@ -93,15 +90,15 @@ class PdfViewer extends Component {
                 >
                 <div style={wrapperDivStyle}>
                 {
-                    this.props.EnableAnnotation ?
+                    this.props.model !== 'pdf' ?
                     <div>
                         <AnnotationBar />
                         {
                             this.state.pagesCount === 0 ? "" : 
-                                <AnnotationViewer viewport={this.state.viewport} 
+                                <AnnotationViewer viewport={this.state.viewport} model={this.props.model}
                                               pagesCount={this.state.pagesCount}
-                                              lineTextWidth={this.state.AnnotationLineWidth}
-                                              opacity = {this.state.AnnotationViewerOpacity}
+                                              lineTextWidth={this.props.AnnotationLineWidth}
+                                              opacity = {this.props.AnnotationViewerOpacity}
                                               action={this.props.action}/>
                         }
                     </div> : ""
@@ -116,6 +113,13 @@ class PdfViewer extends Component {
             </div>
         )
     }
+}
+
+PdfViewer.defaultProps = {
+    AnnotationViewerOpacity: 0.4,
+    AnnotationLineWidth: 400,
+    EnableRenderTextDiv: false,
+    model: 'pdf'
 }
 
 module.exports = PdfViewer;

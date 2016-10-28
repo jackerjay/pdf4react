@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import AnnotationText from './AnnotationText';
 import AnnotationLeftToolsMenu from './AnnotationLeftToolsMenu';
 import AnnotationRightToolsMenu from './AnnotationRightToolsMenu';
+import AnnotationViewModel from './AnnotationViewModel';
 
 import FontFace from '../css/font-face.css';
 
@@ -27,36 +28,56 @@ class AnnotationViewer extends Component {
 			textId: 0,
 			color: 'rgba(0, 128, 0, 0.5)',
 			offsetLeft: null,
-			offsetTop: null
+			offsetTop: null,
+			viewModel: false,
 		}
+		this.handlePdfAnnotationModel = this.handlePdfAnnotationModel.bind(this);
 	}
 
 	componentDidMount() {
+		switch(this.props.model) {
+			case 'view':
+				this.setState({viewModel: true});
+				break;
+			case 'annotation':
+				this.setState({viewModel: false});
+				this.handlePdfAnnotationModel();
+				break;
+			default: break;
+		}
+	}
+
+	handlePdfAnnotationModel() {
 		var canvas = ReactDOM.findDOMNode(this.canvas),
 			annotationInterfaceCanvas = ReactDOM.findDOMNode(this.interfaceCanvas),
 			annotationLineCanvas = ReactDOM.findDOMNode(this.annotationLineCanvas),
-			height = this.props.viewport.height * this.props.pagesCount +
-			(this.props.pagesCount - 1) * 9;
+			height = Math.floor(this.props.viewport.height * this.props.pagesCount + (this.props.pagesCount - 1) * 9),
+			width = Math.floor(this.props.viewport.width);
 
-		canvas.height = Math.floor(height);
-		canvas.width = Math.floor(this.props.viewport.width);
-		annotationInterfaceCanvas.height = canvas.height;
-		annotationInterfaceCanvas.width = canvas.width;
-		annotationLineCanvas.height = Math.floor(height);
-		annotationLineCanvas.width = Math.floor(this.props.viewport.width) + this.props.lineTextWidth;
-		var ctx = canvas.getContext("2d");
-		var linesCtx = annotationLineCanvas.getContext("2d");
-		var interfaceCanvas = annotationInterfaceCanvas.getContext("2d");
+		canvas.height = height;
+		canvas.width = width;
+
+		annotationInterfaceCanvas.height = height;
+		annotationInterfaceCanvas.width = width;
+
+		annotationLineCanvas.height = height;
+		annotationLineCanvas.width = width + this.props.lineTextWidth;
+
+		var ctx = canvas.getContext("2d"),
+			linesCtx = annotationLineCanvas.getContext("2d"),
+		    interfaceCanvas = annotationInterfaceCanvas.getContext("2d");
+
 		this.setState({
 			ctx,
+			offsetLeft: canvas.width + 20,
+			offsetTop: canvas.offsetTop + 10,
 			linesCtx,
 			interfaceCanvas,
-			offsetLeft: canvas.width + 20,
-			offsetTop: canvas.offsetTop + 10
+			annotationModel: true
 		});
 
 		if (this.props.action === undefined) {
-			console.error("You must set the props 'action' when use annotation!")
+			console.error("You must set the props 'action' when use annotation model!")
 		}
 	}
 
@@ -164,6 +185,7 @@ class AnnotationViewer extends Component {
 					top={textDivStyle.top} 
 					offsetLeft={offsetLeft}
 					color={this.state.color}
+					editModel={true}
 					onCloseTextDiv={this.handleOnCloseTextDiv.bind(this)}
 					onChange={this.handleAnnotationDivTextChange.bind(this)}/>),
 			annotationDivs: Object.assign({}, {
@@ -282,8 +304,20 @@ class AnnotationViewer extends Component {
 
 		return (
 			<div>
-				<AnnotationLeftToolsMenu colorChangeCallback={this.handleOnColorChanged.bind(this)}/>
-				<AnnotationRightToolsMenu left={this.state.offsetLeft} 
+			{this.state.viewModel ? 
+				<div>	
+					<AnnotationViewModel 
+							viewport={this.props.viewport}
+							pagesCount={this.props.pagesCount}
+							action={this.props.action}
+							decWidth={this.props.decWidth}
+							lineTextWidth={this.props.lineTextWidth}
+					/>
+				</div>
+				 : 
+				<div>
+					<AnnotationLeftToolsMenu colorChangeCallback={this.handleOnColorChanged.bind(this)}/>
+					<AnnotationRightToolsMenu left={this.state.offsetLeft} 
 										  top={this.state.offsetTop} 
 										  annotationDivs={this.state.annotationDivs}
 										  textDivs={this.state.textDivs}
@@ -291,22 +325,21 @@ class AnnotationViewer extends Component {
 										  action={this.props.action}
 										  />
 				
-				<canvas ref={(c) => this.canvas = c}
+					<canvas ref={(c) => this.canvas = c}
 						style={annotationCanvasStyle}
-				/>
-
-				<canvas ref={(c) => this.interfaceCanvas = c}
+					/>
+					<canvas ref={(c) => this.interfaceCanvas = c}
 						style={annotationCanvasStyle}
 						onMouseDown={this.handleOnMouseDown.bind(this)}
 						onMouseUp={this.handleOnMouseUp.bind(this)}
 						onMouseMove={this.handleOnMouseDownMove.bind(this)}
 						onContextMenu={this.handleOnContextMenu.bind(this)}
-				/>
+					/>
 
-				<canvas ref={(c) => this.annotationLineCanvas = c} 
+					<canvas ref={(c) => this.annotationLineCanvas = c} 
 						style={annotationLineCanvasStyle}
 						/>
-
+				</div> }
 				<div style={{position:'relative'}}>
 					{this.state.textDivs.map((e) => e)}
 				</div>

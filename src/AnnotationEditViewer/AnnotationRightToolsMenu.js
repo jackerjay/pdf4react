@@ -20,31 +20,27 @@ class AnnotationRightToolsMenu extends Component {
 
 	handleSaveButtonClick() {
 		var annotations = this.props.annotations,
-			annotationDivs = this.props.annotationDivs,
-			saveAnnotations = [];
+			annotationDivs = this.props.annotationDivs;
 
 		if (annotations.length > 0) {
-			saveAnnotations = annotations.map((annotation) => {
+			annotations = annotations.map((annotation) => {
 				return Object.assign({},{
 					...annotation,
 					text: annotationDivs[annotation.textId].text
 				})
 			})
 
-			var result = superagent
-							.post(this.props.action)
-							.send(saveAnnotations)
+			var result = new Promise((resolve, reject) => {
+						superagent['post'](this.props.action)
+							.send({annotations})
 							.set('Accept', 'application/json')
-							.end((err, res) => {
-								if(err || !res.ok) {
-									reject(res.body || err)
-								} else {
-									resolve(res.body)
-								}
-							})
+							.end((err, res) => 
+								err ? reject(res.body || err) : resolve(res.body)
+							)
 
-			result.then((result) => {this.getSuccess(result)}, 
-					(error) => {this.getError(error)})
+			})
+			 result.then((result) => {this.getSuccess(result)}, 
+			 		(error) => {this.getError(error)})
 		} else {
 			this.getNoAnnotation();
 		}
@@ -52,8 +48,9 @@ class AnnotationRightToolsMenu extends Component {
 	}
 
 	getSuccess(result) {
+		console.log(result)
 		this.setState({
-			message: <AnnotationMessage message={result.body} />
+			message: <AnnotationMessage message={result} />
 		})
 		this.timer = setTimeout(
 			() => this.setState({
@@ -63,6 +60,7 @@ class AnnotationRightToolsMenu extends Component {
 	}
 
 	getError(error) {
+		console.log(error)
 		this.setState({
 			message: <AnnotationMessage message={error.toString()} />
 		})

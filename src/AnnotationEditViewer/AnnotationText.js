@@ -41,13 +41,23 @@ class AnnotationText extends Component {
 			<div style={styles.div} 
 				>
 				<h1 style={styles.h1}>评语</h1>
-				<textarea rows={this.props.rows} 
+				{this.props.editModel ? 
+					<textarea rows={this.props.rows} 
 					      cols={this.props.cols}
-					      onChange={this.handleTextAreaOnChange.bind(this)}/>
-			    <span style={styles.closeSpan} onClick={() => this.props.onCloseTextDiv(this.props.id)}>
+					      onChange={this.handleTextAreaOnChange.bind(this)}
+					      />
+					:
+					<textarea rows={this.props.rows} 
+							  cols={this.props.cols}
+							  value={this.props.text}
+							  disabled />
+				}
+				
+				{this.props.editModel ? <span style={styles.closeSpan} onClick={() => this.props.onCloseTextDiv(this.props.id)}>
 			    	<i className={FontFace.iconfont + ' ' + FontFace.annotationTextCloseIcon} 
 			    	   >&#xe601;</i>
-			    </span>
+			    </span> : '' }
+			    
 			</div>
 		)
 	}
@@ -55,7 +65,8 @@ class AnnotationText extends Component {
 
 AnnotationText.defaultProps = {
 	rows: 3,
-	cols: 20
+	cols: 20,
+	editModel: false
 }
 
 module.exports = AnnotationText;

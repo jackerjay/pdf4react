@@ -7,8 +7,7 @@ import PDF from './src';
 render(
 	<PDF url="./test.pdf" 
 		scale={0.9} 
-		action='/savepdf'
-		EnableAnnotation={true}
+		model='pdf'
 		EnableRenderTextDiv={true}/>,
 	document.getElementById('root')
 )

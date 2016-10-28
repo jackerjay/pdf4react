@@ -23,17 +23,17 @@
 
 ## 一些设定项(props)
 
-    url : pdf文件地址(必须)
+    url : pdf文件地址(必须，仅支持url方式加载)
     scale : 页面缩放比例，默认为1
-    action : 在使用批注模式时，编辑后保存所发送到的Action地址
-    EnableAnnotation : 开启批注(默认关闭)
+    action : 在使用批注(annotation)或批注显示(view)模式时，编辑后保存所发送到或者需要获取数据的Action地址
+    model : 显示模式，默认为显示正常'pdf'模式，可选有'annotation'即批注编辑模式和'view'即批注显示模式
     EnableRenderTextDiv : 是否渲染Div文字层(默认关闭，可以用于复制或文字选择)
     AnnotationViewerOpacity : 批注层(canvas)的透明度
     AnnotationLineWidth : 右侧批注Div的偏移量，默认400
 
 ## 数据交互格式
 ```
-[
+{"annotation" : [
   {
     "type": "rect",     //批注类型，目前只有'rect'矩形模式
     "location": {       //批注渲染位置，相对于pdf的渲染区域
@@ -59,13 +59,13 @@
       "text": "这是另外一条测试"
     }
 ]
+}
 ```
 
 ## 接下来要做什么
 
 	1）总体评价
-	2）直线标注
-	3）修正标注删除时对画布上其他标注的影响
+  2) 一些优化改进
 
 ## 开源协议
 
